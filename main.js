@@ -45,6 +45,7 @@ function start() {
   setInterval(() => {
     data.calories += data.caloriesDaily / secondsDaily
     view.calories.textContent = data.calories.toFixed(2)
+    save()
   }, 1000)
 }
 
@@ -53,8 +54,6 @@ function save() {
     localStorage.setItem(k, v)
   })
   localStorage.setItem('lastTime', Date.now())
-  console.log('pagehide')
 }
 
 document.addEventListener('DOMContentLoaded', start)
-window.addEventListener('pagehide', save)
