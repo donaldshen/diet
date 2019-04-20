@@ -11,16 +11,23 @@
     <div>
       <label for="weight">体重</label>
       <input id="weight" type="number" />
-      <span>cm</span>
+      <span>kg</span>
     </div>
     <div>
-      <label for="height">身高</label>
-      <input id="height" type="number" />
-      <span>cm</span>
+      <label for="ratio">热量差比例</label>
+      <input id="ratio" type="range" min="0" max="30" step="5" />
+      <span id="ratio-text"></span>
     </div>
-    <label for="ratio">热量差比例</label>
-    <input id="ratio" type="range" min="0" max="30" step="5" />
-    <span id="ratio-text"></span>
+    <button id="save">保存</button>
+    <div>
+      每24h摄入：<span id="calories-daily"></span>千卡
+    </div>
     <div>可摄入热量：<span id="calories"></span>千卡</div>
+    <div>
+      <button id="eat">摄入</button>
+      <input type="number" id="consume">
+      千卡
+    </div>
+    <div id="history"></div>
   </body>
 </html>
