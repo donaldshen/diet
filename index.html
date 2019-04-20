@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>diet</title>
+    <script src="./main.js"></script>
+  </head>
+  <body>
+    <div>
+      <label for="weight">体重</label>
+      <input id="weight" type="number" />
+      <span>cm</span>
+    </div>
+    <div>
+      <label for="height">身高</label>
+      <input id="height" type="number" />
+      <span>cm</span>
+    </div>
+    <label for="ratio">热量差比例</label>
+    <input id="ratio" type="range" min="0" max="30" step="5" />
+    <span id="ratio-text"></span>
+    <div>可摄入热量：<span id="calories"></span>千卡</div>
+  </body>
+</html>
