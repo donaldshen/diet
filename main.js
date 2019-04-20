@@ -33,9 +33,11 @@ function start() {
     data.weight = view.weight.value
     data.ratio = view.ratio.value
     view.caloriesDaily.textContent = data.caloriesDaily
+    save()
   })
   document.querySelector('#eat').addEventListener('click', () => {
     data.calories -= +view.consume.value
+    save()
   })
 
   view.ratio.addEventListener('input', e => {
@@ -45,7 +47,6 @@ function start() {
   setInterval(() => {
     data.calories += data.caloriesDaily / secondsDaily
     view.calories.textContent = data.calories.toFixed(2)
-    save()
   }, 1000)
 }
 
