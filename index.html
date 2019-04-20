@@ -6,18 +6,19 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>diet</title>
     <script src="./main.js"></script>
+    <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    <div>
+    <section>
       <label for="weight">体重</label>
       <input id="weight" type="number" />
       <span>kg</span>
-    </div>
-    <div>
+    </section>
+    <section>
       <label for="ratio">热量差比例</label>
       <input id="ratio" type="range" min="0" max="30" step="5" />
       <span id="ratio-text"></span>
-    </div>
+    </section>
     <button id="save">保存</button>
     <div>
       每24h摄入：<span id="calories-daily"></span>千卡

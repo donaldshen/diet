@@ -56,4 +56,4 @@ function save() {
 }
 
 document.addEventListener('DOMContentLoaded', start)
-window.addEventListener('beforeunload', save)
+window.addEventListener('pagehide', save)
