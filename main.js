@@ -53,6 +53,7 @@ function save() {
     localStorage.setItem(k, v)
   })
   localStorage.setItem('lastTime', Date.now())
+  console.log('pagehide')
 }
 
 document.addEventListener('DOMContentLoaded', start)
