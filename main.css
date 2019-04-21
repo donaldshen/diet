@@ -9,3 +9,6 @@ input[type=number] {
   right: 10px;
   bottom: 10px;
 }
+#calories {
+  font-size: 1.2em;
+}

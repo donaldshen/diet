@@ -5,14 +5,20 @@ const data = {
   calories: +localStorage.getItem('calories'),
   get caloriesDaily() {
     const activeIndex = 32
-    return Math.round(this.weight * activeIndex * (1 - (this.ratio / 100)))
+    return Math.round(this.weight * activeIndex * (1 - this.ratio / 100))
   },
   get caloriesSecondly() {
     return Math.round(this.caloriesDaily / secondsDaily)
   },
+  history: localStorage.getItem('history') || [],
 }
 const lastTime = localStorage.getItem('lastTime')
-if (lastTime) data.calories += data.caloriesDaily / secondsDaily * (Date.now() - lastTime) / 1000
+if (lastTime) {
+  data.calories += ((data.caloriesDaily / secondsDaily) * (Date.now() - lastTime)) / 1000
+}
+if (typeof data.history === 'string') {
+  data.history = data.history.split(',')
+}
 
 function start() {
   const view = {
@@ -22,12 +28,22 @@ function start() {
     caloriesDaily: document.querySelector('#calories-daily'),
     calories: document.querySelector('#calories'),
     consume: document.querySelector('#consume'),
+    history: document.querySelector('#history'),
+  }
+  const prependHistory = (d, c) => {
+    const e = document.createElement('div')
+    d = new Date(+d).toLocaleString()
+    e.innerText = `${d}: ${c}千卡`
+    view.history.prepend(e)
   }
 
   view.weight.value = data.weight
   view.ratio.value = data.ratio
   view.caloriesDaily.textContent = data.caloriesDaily
   view.ratioText.textContent = data.ratio + '%'
+  for (let i = 0; i < data.history.length; i += 2) {
+    prependHistory(data.history[i], data.history[i + 1])
+  }
 
   document.querySelector('#save').addEventListener('click', () => {
     data.weight = view.weight.value
@@ -36,7 +52,11 @@ function start() {
     save()
   })
   document.querySelector('#eat').addEventListener('click', () => {
-    data.calories -= +view.consume.value
+    const v = +view.consume.value
+    prependHistory(Date.now(), v)
+    data.history.unshift(Date.now(), v)
+    data.calories -= v
+    view.consume.value = ''
     save()
   })
 
@@ -47,6 +67,7 @@ function start() {
   setInterval(() => {
     data.calories += data.caloriesDaily / secondsDaily
     view.calories.textContent = data.calories.toFixed(2)
+    view.calories.style.color = data.calories > 0 ? 'green' : 'red'
   }, 1000)
 }
 
