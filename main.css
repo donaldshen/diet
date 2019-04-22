@@ -12,3 +12,7 @@ input[type=number] {
 #calories {
   font-size: 1.2em;
 }
+#history {
+  margin-top: 20px;
+  font-size: 0.8em;
+}

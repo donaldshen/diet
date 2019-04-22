@@ -10,12 +10,17 @@
   </head>
   <body>
     <section>
-      <label for="weight">体重</label>
+      <label for="weight">体重：</label>
       <input id="weight" type="number" />
       <span>kg</span>
     </section>
     <section>
-      <label for="ratio">热量差比例</label>
+      <label for="active-index">运动系数：</label>
+      <input id="active-index" type="range" min="28" max="34" step="2" />
+      <span id="active-index-text"></span>
+    </section>
+    <section>
+      <label for="ratio">热量差比例：</label>
       <input id="ratio" type="range" min="0" max="30" step="5" />
       <span id="ratio-text"></span>
     </section>
@@ -30,6 +35,6 @@
       千卡
     </div>
     <section id="history"></section>
-    <div id="version">版本0.1.1</div>
+    <div id="version">版本0.2.0</div>
   </body>
 </html>
