@@ -1,4 +1,5 @@
 const secondsDaily = 24 * 3600
+localStorage.removeItem('history')
 const data = {
   weight: +localStorage.getItem('weight'),
   activeIndex: +localStorage.getItem('activeIndex') || 30,
@@ -10,14 +11,18 @@ const data = {
   get caloriesSecondly() {
     return Math.round(this.caloriesDaily / secondsDaily)
   },
-  history: localStorage.getItem('history') || [],
+  history: localStorage.getItem('history2'),
 }
 const lastTime = localStorage.getItem('lastTime')
 if (lastTime) {
   data.calories += ((data.caloriesDaily / secondsDaily) * (Date.now() - lastTime)) / 1000
 }
 if (typeof data.history === 'string') {
-  data.history = data.history.split(',')
+  data.history = data.history.split(';')
+    .map(seg => seg.split(','))
+    .slice(0, 10)
+} else {
+  data.history = []
 }
 
 function start() {
@@ -29,13 +34,14 @@ function start() {
     ratioText: document.querySelector('#ratio-text'),
     caloriesDaily: document.querySelector('#calories-daily'),
     calories: document.querySelector('#calories'),
+    item: document.querySelector('#item'),
     consume: document.querySelector('#consume'),
     history: document.querySelector('#history'),
   }
-  const insertHistory = (d, c, m = 'append') => {
+  const insertHistory = (d, item, c, m = 'append') => {
     const e = document.createElement('div')
     d = new Date(+d).toLocaleString()
-    e.innerText = `${d}: ${c}千卡`
+    e.innerText = `${d}: ${item}, ${c}千卡`
     view.history[m](e)
   }
 
@@ -45,9 +51,7 @@ function start() {
   view.ratio.value = data.ratio
   view.caloriesDaily.textContent = data.caloriesDaily
   view.ratioText.textContent = data.ratio + '%'
-  for (let i = 0; i < data.history.length; i += 2) {
-    insertHistory(data.history[i], data.history[i + 1])
-  }
+  data.history.forEach(seg => insertHistory(...seg))
 
   view.activeIndex.addEventListener('input', e => {
     view.activeIndexText.textContent = e.target.value
@@ -65,10 +69,13 @@ function start() {
     save()
   })
   document.querySelector('#eat').addEventListener('click', () => {
-    const v = +view.consume.value
-    insertHistory(Date.now(), v, 'prepend')
-    data.history.unshift(Date.now(), v)
-    data.calories -= v
+    const now = Date.now()
+    const item = view.item.value
+    const c = +view.consume.value
+    insertHistory(now, item, c, 'prepend')
+    data.history.unshift([now, item, c])
+    data.calories -= c
+    view.item.value = ''
     view.consume.value = ''
     save()
   })
@@ -82,7 +89,11 @@ function start() {
 
 function save() {
   Object.entries(data).forEach(([k, v]) => {
-    localStorage.setItem(k, v)
+    if (k === 'history') {
+      localStorage.setItem('history2', v.map(seg => seg.join(',')).join(';'))
+    } else {
+      localStorage.setItem(k, v)
+    }
   })
   localStorage.setItem('lastTime', Date.now())
 }

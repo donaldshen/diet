@@ -1,3 +1,3 @@
 # diet
 
-- [ ] history
+- [x] history
