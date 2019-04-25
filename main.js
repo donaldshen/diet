@@ -20,7 +20,7 @@ if (lastTime) {
 if (typeof data.history === 'string') {
   data.history = data.history.split(';')
     .map(seg => seg.split(','))
-    .slice(0, 10)
+    .slice(0, 20)
 } else {
   data.history = []
 }
@@ -41,7 +41,7 @@ function start() {
   const insertHistory = (d, item, c, m = 'append') => {
     const e = document.createElement('div')
     d = new Date(+d).toLocaleString()
-    e.innerText = `${d}: ${item}, ${c}千卡`
+    e.innerText = `${d}: ${c}千卡, ${item}`
     view.history[m](e)
   }
 
